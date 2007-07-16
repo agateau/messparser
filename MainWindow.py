@@ -38,9 +38,9 @@ class MainWindow(QWidget, Ui_MainWindow):
 
 
 	def fillView(self, lines):
-		self.logWidget.clear()
+		self.logEdit.clear()
 		for line in lines:
-			self.logWidget.addItem(line)
+			self.logEdit.insertPlainText(line + "\n")
 
 
 	def loadSettings(self):
