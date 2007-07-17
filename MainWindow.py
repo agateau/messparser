@@ -47,6 +47,7 @@ class MainWindow(QWidget, Ui_MainWindow):
 		settings = QSettings("bk12", "messparser")
 		lst = settings.value("ui/filters").toStringList()
 		self.filterComboBox.addItems(lst)
+		self.filterComboBox.clearEditText()
 
 
 	def saveSettings(self):
