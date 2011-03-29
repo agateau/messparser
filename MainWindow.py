@@ -26,21 +26,35 @@ class MainWindow(QWidget, Ui_MainWindow):
 
     def applyFilter(self):
         text = self.filterComboBox.currentText()
-        regex = re.compile(unicode(text))
-        result = [x for x in self.log if regex.search(x)]
-        self.fillView(result)
+        self.fillView(unicode(text))
         self.filterComboBox.addItem(text)
 
 
     def setLog(self, log):
         self.log = log
-        self.fillView(self.log)
+        self.fillView("")
 
 
-    def fillView(self, lines):
-        self.logEdit.clear()
-        for line in lines:
-            self.logEdit.insertPlainText(line + "\n")
+    def fillView(self, filterText):
+        def createItem(number, text):
+            return QTreeWidgetItem([str(number), text])
+
+        if filterText:
+            regex = re.compile(filterText)
+            search = regex.search
+        else:
+            search = lambda x: True
+
+        self.tree.clear()
+        topLevelItem = createItem(0, "[Start]")
+        self.tree.addTopLevelItem(topLevelItem)
+        for number, line in enumerate(self.log):
+            item = createItem(number + 1, line)
+            if search(line):
+                topLevelItem = item
+                self.tree.addTopLevelItem(topLevelItem)
+            else:
+                topLevelItem.addChild(item)
 
 
     def loadSettings(self):
