@@ -14,6 +14,7 @@ def main():
     log = file(sys.argv[1]).readlines()
     log = [x.rstrip() for x in log]
     window.setLog(log)
+    window.setWindowTitle(sys.argv[1])
 
     window.show()
     app.exec_()
